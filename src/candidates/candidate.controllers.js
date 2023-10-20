@@ -1,5 +1,5 @@
 import { pool } from '../config/database.js'
-import { createTodoTableQuery, getAllTodoQuery,  insertTodoQuery1, insertTodoQuery3, updateTodoQuery } from './candidate.queries.js';
+import { createTodoTableQuery, deleteTodoByIdQuery, getAllTodoQuery,  getTodoByIdQuery,  insertTodoQuery1, insertTodoQuery3, updateTodoQuery } from './candidate.queries.js';
 
 // CREATE TABLE IF NOT EXISTS
 export const createTodoTable = async (req, res) => {
@@ -21,8 +21,58 @@ export const getAllTodo = async (req, res) => {
     }
 };
 
-// Step 1: Insert basic information
-export const insertTodo1 = async (req, res) => {
+
+// Controller to get a todo by ID
+export const getTodoById = async (req, res) => {
+    const todoId = req.params.id; // Get the ID from the request parameters
+
+    try {
+        const result = await pool.query(getTodoByIdQuery, [todoId]);
+        if (result.rows.length === 0) {
+            res.status(404).json({ message: "Todo not found" });
+        } else {
+            res.status(200).json({ message: "Fetched todo by ID", todo: result.rows[0] });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "An error occurred on the server side", error });
+    }
+};
+
+
+// Controller to delete a todo by ID
+export const deleteTodoById = async (req, res) => {
+    const todoId = req.params.id; // Get the ID from the request parameters
+
+    try {
+        const result = await pool.query(deleteTodoByIdQuery, [todoId]);
+        if (result.rowCount === 0) {
+            // If no rows were deleted, it means the todo with the given ID was not found.
+            res.status(404).json({ message: "Todo not found" });
+        } else {
+            // If at least one row was deleted, it means the todo was deleted successfully.
+            res.status(200).json({ message: "Todo deleted successfully" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "An error occurred on the server side", error });
+    }
+};
+
+// Step 1: Insert timming rest of null value 
+// Controller to insert a new row with the current timestamp
+export const insertTimestampOnly = async (req, res) => {
+    try {
+        const result = await pool.query("INSERT INTO todo (created_at) VALUES (NOW()) RETURNING *");
+
+        res.status(201).json({ message: "Timestamp data created successfully", todo: result.rows[0] });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// Step 2: Insert basic information
+export const updateTodo1 = async (req, res) => {
+    const id=req.params.id
     const {
         name,
         email,
@@ -39,6 +89,7 @@ export const insertTodo1 = async (req, res) => {
 
     try {
         const result = await pool.query(insertTodoQuery1, [
+            id, // Pass the ID for the row to update
             name,
             email,
             phone,
@@ -59,7 +110,7 @@ export const insertTodo1 = async (req, res) => {
 };
 
 // Step 3: Update education and resume
-export const updateTodo = async (req, res) => {
+export const updateTodo2 = async (req, res) => {
     const id = req.params.id;
     const {
         Class10Education ,
@@ -108,8 +159,8 @@ export const updateTodo = async (req, res) => {
 };
 
 
-// Step 3: Insert answers
-export const insertTodo3 = async (req, res) => {
+// Step 4: Insert answers
+export const updateTodo3 = async (req, res) => {
     const id = req.params.id;
     const {
         Answer1,

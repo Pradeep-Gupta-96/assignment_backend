@@ -1,5 +1,5 @@
 import express from "express";
-import { createTodoTable, getAllTodo, insertTodo1,  insertTodo3, updateTodo } from "./candidate.controllers.js";
+import { createTodoTable, getAllTodo, getTodoById, updateTodo1,  updateTodo3, updateTodo2, insertTimestampOnly, deleteTodoById } from "./candidate.controllers.js";
 import multer from 'multer'
 
 export const route = express.Router()
@@ -20,6 +20,11 @@ const upload = multer({ storage });
 
 route.get('/createTodoTable', createTodoTable)
 route.get('/getAllTodo', getAllTodo);
-route.post('/insertTodo1', insertTodo1)
-route.put('/updateTodo/:id', upload.single('UploadResume'), updateTodo)
-route.put('/insertTodo3/:id', insertTodo3)
+route.get('/todo/:id', getTodoById);
+route.delete('/deletetodo/:id', deleteTodoById);
+
+
+route.post('/insertTimestampOnly', insertTimestampOnly)
+route.put('/updateTodo1/:id', updateTodo1)
+route.put('/updateTodo2/:id', upload.single('UploadResume'), updateTodo2)
+route.put('/updateTodo3/:id', updateTodo3)

@@ -37,8 +37,21 @@ CREATE TABLE IF NOT EXISTS todo (
 `;
 
 export const insertTodoQuery1 = `
-INSERT INTO todo (name, email, phone, university, college, course_duration, course, field_of_interest, skills, last_internship_details, publications)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+UPDATE todo
+SET
+    name = $2,
+    email = $3,
+    phone = $4,
+    university = $5,
+    college = $6,
+    course_duration = $7,
+    course = $8,
+    field_of_interest = $9,
+    skills = $10,
+    last_internship_details = $11,
+    publications = $12
+WHERE
+    id = $1
 RETURNING *;
 `;
 
@@ -80,3 +93,9 @@ export const insertTodoQuery3 = `
 
 
 export const getAllTodoQuery = "SELECT * FROM todo";
+
+export const getTodoByIdQuery = "SELECT * FROM todo WHERE id = $1;"
+
+// SQL Query to delete a todo by ID
+export const deleteTodoByIdQuery = "DELETE FROM todo WHERE id = $1";
+
