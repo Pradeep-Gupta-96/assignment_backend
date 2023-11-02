@@ -1,5 +1,5 @@
 import { pool } from '../config/database.js'
-import { createTodoTableQuery, deleteTodoByIdQuery, getAllTodoQuery,  getTodoByIdQuery,  insertTodoQuery1, insertTodoQuery3, updateTodoQuery } from './candidate.queries.js';
+import { createTodoTableQuery, deleteTodoByIdQuery, getAllTodoQuery, getTodoByIdQuery, insertLastRoundDataQuery, insertTodoQuery1, insertTodoQuery3, updateTodoQuery } from './candidate.queries.js';
 
 // CREATE TABLE IF NOT EXISTS
 export const createTodoTable = async (req, res) => {
@@ -72,7 +72,7 @@ export const insertTimestampOnly = async (req, res) => {
 
 // Step 2: Insert basic information
 export const updateTodo1 = async (req, res) => {
-    const id=req.params.id
+    const id = req.params.id
     const {
         name,
         email,
@@ -83,9 +83,10 @@ export const updateTodo1 = async (req, res) => {
         course,
         field_of_interest,
         skills,
-        last_internship_details,
         publications,
+        publicationslink,
     } = req.body;
+
 
     try {
         const result = await pool.query(insertTodoQuery1, [
@@ -99,8 +100,8 @@ export const updateTodo1 = async (req, res) => {
             course,
             field_of_interest,
             skills,
-            last_internship_details,
             publications,
+            publicationslink,
         ]);
 
         res.status(201).json({ message: "Step 1 data created successfully", todo: result.rows[0] });
@@ -113,41 +114,41 @@ export const updateTodo1 = async (req, res) => {
 export const updateTodo2 = async (req, res) => {
     const id = req.params.id;
     const {
-        Class10Education ,
-        Class10_percentage ,
-        Class10_year_of_passing ,
-        Class12Education ,
-        Class12_percentage ,
-        Class12_year_of_passing ,
-        graduation_university ,
-        graduation_percentage ,
-        graduation_year_of_passing ,
-        masters_university ,
-        masters_percentage ,
-        masters_year_of_passing ,
-        LastInternshipDetails ,
-        HaveYouParticipatedinMootCourt ,
-        PreferredLocation ,
+        Class10Education,
+        Class10_percentage,
+        Class10_year_of_passing,
+        Class12Education,
+        Class12_percentage,
+        Class12_year_of_passing,
+        graduation_university,
+        graduation_percentage,
+        graduation_year_of_passing,
+        masters_university,
+        masters_percentage,
+        masters_year_of_passing,
+        LastInternshipDetails,
+        HaveYouParticipatedinMootCourt,
+        PreferredLocation,
     } = req.body;
     const UploadResume = req.file ? `uploads/${req.file.filename}` : null;
 
     try {
         const result = await pool.query(updateTodoQuery, [
-            Class10Education ,
-            Class10_percentage ,
-            Class10_year_of_passing ,
-            Class12Education ,
-            Class12_percentage ,
-            Class12_year_of_passing ,
-            graduation_university ,
-            graduation_percentage ,
-            graduation_year_of_passing ,
-            masters_university ,
-            masters_percentage ,
-            masters_year_of_passing ,
-            LastInternshipDetails ,
-            HaveYouParticipatedinMootCourt ,
-            PreferredLocation ,
+            Class10Education,
+            Class10_percentage,
+            Class10_year_of_passing,
+            Class12Education,
+            Class12_percentage,
+            Class12_year_of_passing,
+            graduation_university,
+            graduation_percentage,
+            graduation_year_of_passing,
+            masters_university,
+            masters_percentage,
+            masters_year_of_passing,
+            LastInternshipDetails,
+            HaveYouParticipatedinMootCourt,
+            PreferredLocation,
             UploadResume,
             id, // Pass the ID for the row to update
         ]);
@@ -181,3 +182,81 @@ export const updateTodo3 = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+//final Round
+export const lastround = async (req, res) => {
+    const id = req.params.id;
+    const {
+        Answer1_PartA,
+        Answer2_PartA,
+        Answer3_PartA,
+        Answer4_PartA,
+        Answer5_PartA,
+        Answer6_PartA,
+        Answer7_PartA,
+        Answer8_PartA,
+        Answer9_PartA,
+        Answer10_PartA,
+        Answer11_PartA,
+        Answer12_PartA,
+        Answer13_PartA,
+        Answer14_PartA,
+        Answer1_PartB,
+        Answer2_PartB,
+        Answer3_PartB,
+        Answer1_PartC,
+        Answer2_PartC,
+        Answer3_PartC,
+        Answer1_PartD,
+        Answer2_PartD,
+        Answer3_PartD,
+        Answer4_PartD,
+        Answer5_PartD,
+        Answer6_PartD,
+        Answer7_PartD,
+        Answer8_PartD,
+        Answer9_PartD,
+        Answer10_PartD,
+    } = req.body;
+
+    try {
+        const result = await pool.query(insertLastRoundDataQuery, [
+            Answer1_PartA,
+            Answer2_PartA,
+            Answer3_PartA,
+            Answer4_PartA,
+            Answer5_PartA,
+            Answer6_PartA,
+            Answer7_PartA,
+            Answer8_PartA,
+            Answer9_PartA,
+            Answer10_PartA,
+            Answer11_PartA,
+            Answer12_PartA,
+            Answer13_PartA,
+            Answer14_PartA,
+            Answer1_PartB,
+            Answer2_PartB,
+            Answer3_PartB,
+            Answer1_PartC,
+            Answer2_PartC,
+            Answer3_PartC,
+            Answer1_PartD,
+            Answer2_PartD,
+            Answer3_PartD,
+            Answer4_PartD,
+            Answer5_PartD,
+            Answer6_PartD,
+            Answer7_PartD,
+            Answer8_PartD,
+            Answer9_PartD,
+            Answer10_PartD,
+            id, // Pass the ID for the row to update
+        ]);
+
+        res.status(201).json({ message: "Final step data updated successfully", todo: result.rows[0] });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
