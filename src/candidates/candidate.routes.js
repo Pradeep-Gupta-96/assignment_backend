@@ -25,7 +25,7 @@ route.delete('/deletetodo/:id', deleteTodoById);
 
 
 route.post('/insertTimestampOnly', insertTimestampOnly)
-route.put('/updateTodo1/:id', updateTodo1)
-route.put('/updateTodo2/:id', upload.single('UploadResume'), updateTodo2)
+route.put('/updateTodo1/:id',upload.single('upload_resume'), updateTodo1)
+route.put('/updateTodo2/:id', updateTodo2)
 route.put('/updateTodo3/:id', updateTodo3)
 route.put('/lastround/:id', lastround)
