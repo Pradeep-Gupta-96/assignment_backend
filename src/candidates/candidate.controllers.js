@@ -11,6 +11,7 @@ export const createTodoTable = async (req, res) => {
     }
 };
 
+
 // GET ALL
 export const getAllTodo = async (req, res) => {
     try {
@@ -57,6 +58,7 @@ export const deleteTodoById = async (req, res) => {
     }
 };
 
+
 // Step 1: Insert timming rest of null value 
 // Controller to insert a new row with the current timestamp
 export const insertTimestampOnly = async (req, res) => {
@@ -101,7 +103,7 @@ export const updateTodo1 = async (req, res) => {
 
     const upload_resume = req.file ? `uploads/${req.file.filename}` : null;
 
-    // //  Define an array of field names
+    //  Define an array of field names
     // const requiredFields = [
     //     'name',
     //     'email',
@@ -170,7 +172,6 @@ export const updateTodo1 = async (req, res) => {
     }
 };
 
-
 // Step 3: Update education and resume
 export const updateTodo2 = async (req, res) => {
     const id = req.params.id;
@@ -187,6 +188,22 @@ export const updateTodo2 = async (req, res) => {
         Aptitude_answer10,
     } = req.body;
 
+    // Initialize count
+    let totalCount = 0;
+
+    // Check each answer and increment count if it matches
+    if (Aptitude_answer1 === "D. A’s son") totalCount++;
+    if (Aptitude_answer2 === "C. India seriously commended the achievements of Russia, i.e., hundred percent literacy and rapid industrialization.") totalCount++;
+    if (Aptitude_answer3 === "B. Applauding") totalCount++;
+    if (Aptitude_answer4 === "B. Rapid growth of nuclear weapons in Russia") totalCount++;
+    if (Aptitude_answer5 === "D. Analytical") totalCount++;
+    if (Aptitude_answer6 === "A. LEPEHATN") totalCount++;
+    if (Aptitude_answer7 === "A. 50") totalCount++;
+    if (Aptitude_answer8 === "B. 2 Only") totalCount++;
+    if (Aptitude_answer9 === "B. Unemployment must be seen as a function of rising education and aspirations of young Indians.") totalCount++;
+    if (Aptitude_answer10 === "B. It is not desirable to have Governments managed by empirical statesmen unless well mixed with others who are grounded in learning and reflect wisdom.") totalCount++;
+
+    // console.log(totalCount)
 
     try {
         const result = await pool.query(updateTodoQuery, [
@@ -210,6 +227,7 @@ export const updateTodo2 = async (req, res) => {
 };
 
 
+
 // Step 4: Insert answers
 export const updateTodo3 = async (req, res) => {
     const id = req.params.id;
@@ -219,6 +237,55 @@ export const updateTodo3 = async (req, res) => {
         Answer3,
     } = req.body;
 
+    const checkWords = [
+        "Cultural competence",
+        "Negotiation and mediation",
+        "Strong communication skills",
+        "Time management",
+        "Problem-solving ability",
+        "Legal current affairs",
+        "Legal evidence",
+        "Ethics",
+        "Legal procedure",
+        "Legal technology",
+        "Case analysis",
+        "Logical reasoning",
+        "Contract law",
+        "Torts",
+        "Constitutional law",
+        "Legal history",
+        "International law",
+        "Legal procedure",
+        "Problem-solving ability",
+        "Communication skills",
+        "Negotiation",
+        "Mediation",
+        "Equity and diversion",
+        "Professional responsibility",
+        "Integrity"
+    ];
+
+    // Function to count matching words
+    const countMatchingWords = (answer, wordsToCheck) => {
+        const matchingWords = wordsToCheck.filter(word => answer.includes(word));
+        return matchingWords.length;
+    };
+
+    // Process each answer asynchronously
+    const matchingWordsCount1 = countMatchingWords(Answer1, checkWords);
+    const count1 = matchingWordsCount1 >= 4 && matchingWordsCount1 <= 6 ? 2 : (matchingWordsCount1 > 6 ? 3 : 0);
+
+    const matchingWordsCount2 = countMatchingWords(Answer2, checkWords);
+    const count2 = matchingWordsCount2 >= 4 && matchingWordsCount2 <= 6 ? 2 : (matchingWordsCount2 > 6 ? 3 : 0);
+
+    const matchingWordsCount3 = countMatchingWords(Answer3, checkWords);
+    const count3 = matchingWordsCount3 >= 4 && matchingWordsCount3 <= 6 ? 2 : (matchingWordsCount3 > 6 ? 3 : 0);
+
+    // Calculate total count
+    const totalCount = count1 + count2 + count3;
+
+    console.log(totalCount)
+
     try {
         const result = await pool.query(insertTodoQuery3, [
             Answer1,
@@ -227,11 +294,12 @@ export const updateTodo3 = async (req, res) => {
             id, // Pass the ID for the row to update
         ]);
 
-        res.status(201).json({ message: "Step 3 data created successfully", todo: result.rows[0] });
+        res.status(201).json({ message: "Step 3 data created successfully", todo: result.rows[0], totalCount });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 //final Round
 export const lastround = async (req, res) => {
@@ -325,6 +393,153 @@ export const lastround = async (req, res) => {
         answer1_public_policy,
         answer2_public_policy,
     } = req.body;
+
+    // Initialize count
+    let totalCountPartA = 0;
+    // Check each answer and increment count if it matches
+    if (answer1_part_a === "1") totalCountPartA++;
+    if (answer2_part_a === "2") totalCountPartA++;
+    if (answer3_part_a === "3") totalCountPartA++;
+    if (answer4_part_a === "1") totalCountPartA++;
+    if (answer5_part_a === "4") totalCountPartA++;
+    if (answer6_part_a === "3") totalCountPartA++;
+    if (answer7_part_a === "5") totalCountPartA++;
+    if (answer8_part_a === "8") totalCountPartA++;
+    if (answer9_part_a === "2") totalCountPartA++;
+    if (answer10_part_a === "1") totalCountPartA++;
+    if (answer11_part_a === "1") totalCountPartA++;
+    if (answer12_part_a === "1") totalCountPartA++;
+    if (answer13_part_a === "4") totalCountPartA++;
+    if (answer14_part_a === "1") totalCountPartA++;
+
+    // Initialize count
+    let totalCountPartD = 0;
+    // Check each answer and increment count if it matches
+    if (answer1_part_d === "2") totalCountPartD++;
+    if (answer2_part_d === "4") totalCountPartD++;
+    if (answer3_part_d === "1") totalCountPartD++;
+    if (answer4_part_d === "2") totalCountPartD++;
+    if (answer5_part_d === "4") totalCountPartD++;
+    if (answer6_part_d === "1") totalCountPartD++;
+    if (answer7_part_d === "2") totalCountPartD++;
+    if (answer8_part_d === "2") totalCountPartD++;
+    if (answer9_part_d === "1") totalCountPartD++;
+    if (answer10_part_d === "1") totalCountPartD++;
+
+    // Initialize count
+    let totalCountInterestbased = 0;
+
+    // Check each answer and increment count if it matches
+    if (answer1_entertainment_and_media_law === "2") totalCountInterestbased++;
+    if (answer2_entertainment_and_media_law === "1") totalCountInterestbased++;
+    if (answer3_entertainment_and_media_law === "3") totalCountInterestbased++;
+    if (answer1_capital_market_securities === "5") totalCountInterestbased++;
+    if (answer1_banking_law === "1") totalCountInterestbased++;
+    if (answer2_banking_law === "2") totalCountInterestbased++;
+    if (answer3_banking_law === "4") totalCountInterestbased++;
+    if (answer1_mediation_and_conciliation === "4") totalCountInterestbased++;
+    if (answer2_mediation_and_conciliation === "4") totalCountInterestbased++;
+    if (answer3_mediation_and_conciliation === "4") totalCountInterestbased++;
+    if (answer1_merger_acquisition === "1") totalCountInterestbased++;
+    if (answer2_merger_acquisition === "4") totalCountInterestbased++;
+    if (answer3_merger_acquisition === "4") totalCountInterestbased++;
+    if (answer1_sports_law === "4") totalCountInterestbased++;
+    if (answer2_sports_law === "4") totalCountInterestbased++;
+    if (answer3_sports_law === "2") totalCountInterestbased++;
+    if (answer1_intellectual_property_rights === "1") totalCountInterestbased++;
+    if (answer2_intellectual_property_rights === "2") totalCountInterestbased++;
+    if (answer3_intellectual_property_rights === "2") totalCountInterestbased++;
+    if (answer1_labour_laws === "4") totalCountInterestbased++;
+    if (answer2_labour_laws === "4") totalCountInterestbased++;
+    if (answer3_labour_laws === "4") totalCountInterestbased++;
+    if (answer1_international_business_law === "4") totalCountInterestbased++;
+    if (answer2_international_business_law === "3") totalCountInterestbased++;
+    if (answer3_international_business_law === "4") totalCountInterestbased++;
+    if (answer1_startup_in_india_related_legal_question === "4") totalCountInterestbased++;
+    if (answer2_startup_in_india_related_legal_question === "4") totalCountInterestbased++;
+    if (answer3_startup_in_india_related_legal_question === "4") totalCountInterestbased++;
+    if (answer1_insurance_law === "4") totalCountInterestbased++;
+    if (answer2_insurance_law === "3") totalCountInterestbased++;
+    if (answer3_insurance_law === "4") totalCountInterestbased++;
+    if (answer1_joint_venture_public_private_partnership_and_msme === "4") totalCountInterestbased++;
+    if (answer2_joint_venture_public_private_partnership_and_msme === "3") totalCountInterestbased++;
+    if (answer3_joint_venture_public_private_partnership_and_msme === "4") totalCountInterestbased++;
+    if (answer1_tax_law === "4") totalCountInterestbased++;
+    if (answer2_tax_law === "2") totalCountInterestbased++;
+    if (answer3_tax_law === "2") totalCountInterestbased++;
+    if (answer1_arbitration === "4") totalCountInterestbased++;
+    if (answer2_arbitration === "2") totalCountInterestbased++;
+    if (answer3_arbitration === "1") totalCountInterestbased++;
+    if (answer4_arbitration === "2") totalCountInterestbased++;
+    if (answer5_arbitration === "1") totalCountInterestbased++;
+    if (answer1_ibc === "4") totalCountInterestbased++;
+    if (answer2_ibc === "4") totalCountInterestbased++;
+    if (answer3_ibc === "3") totalCountInterestbased++;
+    if (answer1_competitive_and_anti_trust === "2") totalCountInterestbased++;
+    if (answer1_aviation_law === "1") totalCountInterestbased++;
+    if (answer2_aviation_law === "1") totalCountInterestbased++;
+    if (answer3_aviation_law === "4") totalCountInterestbased++;
+    if (answer4_aviation_law === "4") totalCountInterestbased++;
+    if (answer1_environment === "4") totalCountInterestbased++;
+    if (answer2_environment === "4") totalCountInterestbased++;
+    if (answer3_environment === "4") totalCountInterestbased++;
+    if (answer4_environment === "3") totalCountInterestbased++;
+    if (answer5_environment === "1") totalCountInterestbased++;
+    if (answer1_public_policy === "2") totalCountInterestbased++;
+    if (answer2_public_policy === "3") totalCountInterestbased++;
+
+
+    const checkWords = [
+        "Cultural competence",
+        "Negotiation and mediation",
+        "Strong communication skills",
+        "Time management",
+        "Problem-solving ability",
+        "Legal current affairs",
+        "Legal evidence",
+        "Ethics",
+        "Legal procedure",
+        "Legal technology",
+        "Case analysis",
+        "Logical reasoning",
+        "Contract law",
+        "Torts",
+        "Constitutional law",
+        "Legal history",
+        "International law",
+        "Legal procedure",
+        "Problem-solving ability",
+        "Communication skills",
+        "Negotiation",
+        "Mediation",
+        "Equity and diversion",
+        "Professional responsibility",
+        "Integrity"
+    ];
+
+    // Function to count matching words
+    const countMatchingWords = (answer, wordsToCheck) => {
+        const matchingWords = wordsToCheck.filter(word => answer.includes(word));
+        return matchingWords.length;
+    };
+
+    // Process each answer asynchronously
+    const matchingWordsCount1 = countMatchingWords(answer1_part_b, checkWords);
+    const count1 = matchingWordsCount1 >= 4 && matchingWordsCount1 <= 6 ? 2 : (matchingWordsCount1 > 6 ? 3 : 0);
+
+    const matchingWordsCount2 = countMatchingWords(answer2_part_b, checkWords);
+    const count2 = matchingWordsCount2 >= 4 && matchingWordsCount2 <= 6 ? 2 : (matchingWordsCount2 > 6 ? 3 : 0);
+
+    const matchingWordsCount3 = countMatchingWords(answer3_part_b, checkWords);
+    const count3 = matchingWordsCount3 >= 4 && matchingWordsCount3 <= 6 ? 2 : (matchingWordsCount3 > 6 ? 3 : 0);
+
+    // Calculate total count
+    const totalCountPartC = count1 + count2 + count3;
+
+    console.log(totalCountPartC)
+
+    
+
 
     try {
         const result = await pool.query(insertLastRoundDataQuery, [

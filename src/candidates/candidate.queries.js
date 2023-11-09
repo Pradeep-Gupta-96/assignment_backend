@@ -1,72 +1,4 @@
 // SQL Queries
-// export const createTodoTableQuery = `
-// CREATE TABLE IF NOT EXISTS todo (
-//     ID SERIAL PRIMARY KEY,
-//     name VARCHAR(255),
-//     email VARCHAR(255),
-//     phone VARCHAR(255),
-//     university VARCHAR(255),
-//     college VARCHAR(255),
-//     course_duration VARCHAR(255),
-//     course VARCHAR(255),
-//     field_of_interest VARCHAR(255),
-//     skills VARCHAR(255),
-//     last_internship_details VARCHAR(255),
-//     publications TEXT,
-//     publicationslink VARCHAR(255),
-//     Class10Education VARCHAR(255),
-//     Class10_percentage VARCHAR(255),
-//     Class10_year_of_passing VARCHAR(255),
-//     Class12Education VARCHAR(255),
-//     Class12_percentage VARCHAR(255),
-//     Class12_year_of_passing VARCHAR(255),
-//     graduation_university VARCHAR(255),
-//     graduation_percentage VARCHAR(255),
-//     graduation_year_of_passing VARCHAR(255),
-//     masters_university VARCHAR(255),
-//     masters_percentage VARCHAR(255),
-//     masters_year_of_passing VARCHAR(255),
-//     LastInternshipDetails VARCHAR(255),
-//     HaveYouParticipatedinMootCourt VARCHAR(255),
-//     PreferredLocation VARCHAR(255),
-//     Answer1 TEXT,
-//     Answer2 TEXT,
-//     Answer3 TEXT,
-//     UploadResume VARCHAR(255),
-//     Answer1_PartA VARCHAR(255),
-//     Answer2_PartA VARCHAR(255),
-//     Answer3_PartA VARCHAR(255),
-//     Answer4_PartA VARCHAR(255),
-//     Answer5_PartA VARCHAR(255),
-//     Answer6_PartA VARCHAR(255),
-//     Answer7_PartA VARCHAR(255),
-//     Answer8_PartA VARCHAR(255),
-//     Answer9_PartA VARCHAR(255),
-//     Answer10_PartA VARCHAR(255),
-//     Answer11_PartA VARCHAR(255),
-//     Answer12_PartA VARCHAR(255),
-//     Answer13_PartA VARCHAR(255),
-//     Answer14_PartA VARCHAR(255),
-//     Answer1_PartB TEXT,
-//     Answer2_PartB TEXT,
-//     Answer3_PartB TEXT,
-//     Answer1_PartC TEXT,
-//     Answer2_PartC TEXT,
-//     Answer3_PartC TEXT,
-//     Answer1_PartD VARCHAR(255),
-//     Answer2_PartD VARCHAR(255),
-//     Answer3_PartD VARCHAR(255),
-//     Answer4_PartD VARCHAR(255),
-//     Answer5_PartD VARCHAR(255),
-//     Answer6_PartD VARCHAR(255),
-//     Answer7_PartD VARCHAR(255),
-//     Answer8_PartD VARCHAR(255),
-//     Answer9_PartD VARCHAR(255),
-//     Answer10_PartD VARCHAR(255),
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
-// `;
-
 export const createTodoTableQuery = `
 CREATE TABLE IF NOT EXISTS todo (
     ID SERIAL PRIMARY KEY,
@@ -198,6 +130,7 @@ CREATE TABLE IF NOT EXISTS todo (
 );
 `;
 
+
 export const insertTodoQuery1 = `
 UPDATE todo
 SET
@@ -247,7 +180,6 @@ WHERE
     ID = $11
 RETURNING *;
 `;
-
 
 export const insertTodoQuery3 = `
     UPDATE todo

@@ -9,8 +9,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors())
 
-
-
 // Load environment variables from config.env file
 config({
     path: './src/config/config.env', // Adjust the path as needed
