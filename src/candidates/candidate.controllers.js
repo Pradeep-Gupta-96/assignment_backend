@@ -104,38 +104,21 @@ export const updateTodo1 = async (req, res) => {
     const upload_resume = req.file ? `uploads/${req.file.filename}` : null;
 
     //  Define an array of field names
-    // const requiredFields = [
-    //     'name',
-    //     'email',
-    //     'phone',
-    //     'field_of_interest',
-    //     'linkedin_url',
-    //     'university',
-    //     'college',
-    //     'course_duration',
-    //     'course',
-    //     'publications',
-    //     'class_10_education',
-    //     'class_10_percentage',
-    //     'class_10_year_of_passing',
-    //     'class_12_education',
-    //     'class_12_percentage',
-    //     'class_12_year_of_passing',
-    //     'masters_university',
-    //     'masters_percentage',
-    //     'masters_year_of_passing',
-    //     'last_internship_details',
-    //     'preferred_location',
-    //     'skills',
-    // ];
+    const requiredFields = [
+        'name',
+        'email',
+        'phone',
+        'field_of_interest',
+        'skills',
+    ];
 
-    // // Check if any of the fields are empty
-    // const missingFields = requiredFields.filter((field) => !req.body[field]);
+    // Check if any of the fields are empty
+    const missingFields = requiredFields.filter((field) => !req.body[field]);
 
-    // if (missingFields.length > 0) {
-    //     const missingFieldNames = missingFields.join(', ');
-    //     return res.status(400).json({ message: `Please fill in the following fields: ${missingFieldNames}` });
-    // }
+    if (missingFields.length > 0) {
+        const missingFieldNames = missingFields.join(', ');
+        return res.status(400).json({ message: `Please fill in the following fields: ${missingFieldNames}` });
+    }
 
     try {
         const result = await pool.query(insertTodoQuery1, [
