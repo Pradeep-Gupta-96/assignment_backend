@@ -203,7 +203,8 @@ export const updateTodo2 = async (req, res) => {
     if (Aptitude_answer9 === "B. Unemployment must be seen as a function of rising education and aspirations of young Indians.") totalCount++;
     if (Aptitude_answer10 === "B. It is not desirable to have Governments managed by empirical statesmen unless well mixed with others who are grounded in learning and reflect wisdom.") totalCount++;
 
-    // console.log(totalCount)
+    console.log("Step 2:-", totalCount)
+    const total_marks = totalCount
 
     try {
         const result = await pool.query(updateTodoQuery, [
@@ -217,6 +218,7 @@ export const updateTodo2 = async (req, res) => {
             Aptitude_answer8,
             Aptitude_answer9,
             Aptitude_answer10,
+            total_marks,
             id, // Pass the ID for the row to update
         ]);
 
@@ -284,13 +286,21 @@ export const updateTodo3 = async (req, res) => {
     // Calculate total count
     const totalCount = count1 + count2 + count3;
 
-    console.log(totalCount)
+    console.log("Step 3:-", totalCount)
 
     try {
+
+        // Retrieve the current total_marks from the database
+        const currentData = await pool.query(`SELECT total_marks FROM todo WHERE ID = $1`, [id]);
+        const currentTotalMarks = currentData.rows[0].total_marks || 0; // Get the current total_marks
+
+        const newTotalMarks = currentTotalMarks + totalCount; // Add the new totalCount to the current total_marks
+
         const result = await pool.query(insertTodoQuery3, [
             Answer1,
             Answer2,
             Answer3,
+            newTotalMarks, // Use the updated total_marks value
             id, // Pass the ID for the row to update
         ]);
 
@@ -489,7 +499,7 @@ export const lastround = async (req, res) => {
     if (answer2_public_policy === "3") totalCountInterestbased++;
 
 
-    const checkWords = [
+    const checkWords_answer1_part_b = [
         "Cultural competence",
         "Negotiation and mediation",
         "Strong communication skills",
@@ -517,31 +527,120 @@ export const lastround = async (req, res) => {
         "Integrity"
     ];
 
+    const checkWords_answer2_part_b = [
+        "Article 14",
+        "Financial creditor",
+        "Operational creditor",
+        "Case laws",
+        "Intelligible differentia",
+        "Constitution of India",
+        "Discriminatory",
+        "Classification",
+        "Relevant case laws"
+        // Add more relevant keywords as needed
+    ];
+
+    const checkWords_answer3_part_b = [
+        "Resolution Professional",
+        "Insolvency and Bankruptcy Code",
+        "Corporate Debtor",
+        "Corporate Insolvency Resolution Process",
+        "CIRP operations",
+        "Revival",
+        "Statutorily required conduct",
+        // Add more relevant keywords as needed
+    ];
+
+
     // Function to count matching words
     const countMatchingWords = (answer, wordsToCheck) => {
         const matchingWords = wordsToCheck.filter(word => answer.includes(word));
         return matchingWords.length;
     };
 
-    // Process each answer asynchronously
-    const matchingWordsCount1 = countMatchingWords(answer1_part_b, checkWords);
-    const count1 = matchingWordsCount1 >= 4 && matchingWordsCount1 <= 6 ? 2 : (matchingWordsCount1 > 6 ? 3 : 0);
+    // Process each answer asynchronously part b
+    const matchingWordsCountb1 = countMatchingWords(answer1_part_b, checkWords_answer1_part_b);
+    const countb1 = matchingWordsCountb1 >= 4 && matchingWordsCountb1 <= 6 ? 2 : (matchingWordsCountb1 > 6 ? 3 : 0);
 
-    const matchingWordsCount2 = countMatchingWords(answer2_part_b, checkWords);
-    const count2 = matchingWordsCount2 >= 4 && matchingWordsCount2 <= 6 ? 2 : (matchingWordsCount2 > 6 ? 3 : 0);
+    const matchingWordsCountb2 = countMatchingWords(answer2_part_b, checkWords_answer2_part_b);
+    const countb2 = matchingWordsCountb2 >= 4 && matchingWordsCountb2 <= 6 ? 2 : (matchingWordsCountb2 > 6 ? 3 : 0);
 
-    const matchingWordsCount3 = countMatchingWords(answer3_part_b, checkWords);
-    const count3 = matchingWordsCount3 >= 4 && matchingWordsCount3 <= 6 ? 2 : (matchingWordsCount3 > 6 ? 3 : 0);
+    const matchingWordsCountb3 = countMatchingWords(answer3_part_b, checkWords_answer3_part_b);
+    const countb3 = matchingWordsCountb3 >= 4 && matchingWordsCountb3 <= 6 ? 2 : (matchingWordsCountb3 > 6 ? 3 : 0);
 
-    // Calculate total count
-    const totalCountPartC = count1 + count2 + count3;
+    // Calculate total count b
+    const totalCountPartB = countb1 + countb2 + countb3;
 
-    console.log(totalCountPartC)
+    const checkWords_answer1_part_c = [
+        "Article 32 of the Constitution",
+        "Writ Petition",
+        "Fundamental rights",
+        "Infringement",
+        "Chief Justice of India",
+        "Bonded labour system",
+        "Prevalence",
+        "Disney Land",
+        "Factory units",
+        "Inhuman conditions",
+        "Investigation",
+        "Legal aspects",
+    ];
 
+    const checkWords_answer2_part_c = [
+        "Patent protection",
+        "Biotechnology",
+        "Gene formation",
+        "Life expectancy",
+        "Anti-aging",
+        "Disease",
+        "De novo gene formation",
+        "State-of-the-art technology",
+        "India",
+        "Legal experts",
+        "Invent",
+        "Technology",
+    ];
+
+    const checkWords_answer3_part_c = [
+        "Companies Act, 2013",
+        "Toon town",
+        "Amusement park",
+        "Shareholders",
+        "Promoters",
+        "Directors",
+        "Liabilities",
+        "Legal actions",
+        "Mortgages",
+        "Property",
+        "Incorporate",
+        "Company",
+    ];
+
+
+    // Process each answer asynchronously part c
+    const matchingWordsCountc1 = countMatchingWords(answer1_part_c, checkWords_answer1_part_c);
+    const countc1 = matchingWordsCountc1 >= 4 && matchingWordsCountc1 <= 6 ? 2 : (matchingWordsCountc1 > 6 ? 3 : 0);
+
+    const matchingWordsCountc2 = countMatchingWords(answer2_part_c, checkWords_answer2_part_c);
+    const countc2 = matchingWordsCountc2 >= 4 && matchingWordsCountc2 <= 6 ? 2 : (matchingWordsCountc2 > 6 ? 3 : 0);
+
+    const matchingWordsCountc3 = countMatchingWords(answer3_part_c, checkWords_answer3_part_c);
+    const countc3 = matchingWordsCountc3 >= 4 && matchingWordsCountc3 <= 6 ? 2 : (matchingWordsCountc3 > 6 ? 3 : 0);
+
+    // Calculate total count c
+    const totalCountPartC = countc1 + countc2 + countc3;
+
+    console.log("Text Area:-", totalCountPartB + totalCountPartC)
+    console.log("Ckeck Box:-", totalCountPartA + totalCountPartD + totalCountInterestbased)
+    const totalCount = totalCountPartB + totalCountPartC + totalCountPartA + totalCountPartD + totalCountInterestbased
     
-
-
     try {
+        // Retrieve the current total_marks from the database
+        const currentData = await pool.query(`SELECT total_marks FROM todo WHERE ID = $1`, [id]);
+        const currentTotalMarks = currentData.rows[0].total_marks || 0; // Get the current total_marks
+
+        const newTotalMarks = currentTotalMarks + totalCount; // Add the new totalCount to the current total_marks
+
         const result = await pool.query(insertLastRoundDataQuery, [
             answer1_part_a,
             answer2_part_a,
@@ -630,6 +729,7 @@ export const lastround = async (req, res) => {
             answer5_environment,
             answer1_public_policy,
             answer2_public_policy,
+            newTotalMarks,
             id, // Pass the ID for the row to update
         ]);
 

@@ -126,10 +126,10 @@ CREATE TABLE IF NOT EXISTS todo (
     answer5_environment VARCHAR(255),
     answer1_public_policy VARCHAR(255),
     answer2_public_policy VARCHAR(255),
+    total_marks INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 `;
-
 
 export const insertTodoQuery1 = `
 UPDATE todo
@@ -175,9 +175,10 @@ SET
     Aptitude_answer7 = $7,
     Aptitude_answer8 = $8,
     Aptitude_answer9 = $9,
-    Aptitude_answer10 = $10
+    Aptitude_answer10 = $10,
+    total_marks = $11
 WHERE
-    ID = $11
+    ID = $12
 RETURNING *;
 `;
 
@@ -186,9 +187,10 @@ export const insertTodoQuery3 = `
     SET
         Answer1 = $1,
         Answer2 = $2,
-        Answer3 = $3
+        Answer3 = $3,
+        total_marks = $4 
     WHERE
-        ID = $4
+        ID = $5
     RETURNING *;
 `;
 
@@ -282,9 +284,10 @@ export const insertLastRoundDataQuery = `
         answer4_environment = $84,
         answer5_environment = $85,
         answer1_public_policy = $86,
-        answer2_public_policy = $87
+        answer2_public_policy = $87,
+        total_marks = $88
     WHERE
-        ID = $88
+        ID = $89
     RETURNING *;
 `;
 
